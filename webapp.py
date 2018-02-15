@@ -44,12 +44,12 @@ def post():
     #Every post should include the username of the poster and text of the post.
     try:
         with open(file,'r+') as f:
+            mess = "something was written my dawg"
             data = json.load(f)
             data.append(request.form['message'])
             f.seek(0)
             f.truncate()
             json.dump(data,f)
-            mess = "something was written my dawg"
     except:
         mess = 'There are no posts as of yet"
     return render_template('home.html', past_posts=posts_to_html(),rar=mess)
