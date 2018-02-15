@@ -45,7 +45,7 @@ def post():
     try:
         with open(file,'r+') as f:
             data = json.load(f)
-            data.write(request.form['message'])
+            data.append(request.form['message'])
             f.seek(0)
             f.truncate()
             json.dump(data,f)
