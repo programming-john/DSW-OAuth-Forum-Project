@@ -47,9 +47,8 @@ def post():
             data = json.load(file)
             
     except:
-        with open(nameOfFile,'w') as file:
-            data = json.load(file)
-    return render_template('home.html', past_posts=posts_to_html())
+        message = "freaking file did not load or somehting"
+    return render_template('home.html', past_posts=posts_to_html(),error = message)
 
 def posts_to_html():
     post = Markup("<p>Hello</p>")
