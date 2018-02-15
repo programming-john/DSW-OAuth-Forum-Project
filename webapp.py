@@ -49,7 +49,7 @@ def post():
             message = 'File was created'
     except:
         message = 'File was NOT created'
-    return render_template('home.html', past_posts=posts_to_html(), error = message)
+    return render_template('home.html', past_posts=posts_to_html(), rar = message)
 
 def posts_to_html():
     post = Markup("<p>Hello</p>")
