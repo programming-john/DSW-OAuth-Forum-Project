@@ -48,6 +48,9 @@ def post():
     post = Markup("<p>"+ request.form['message'] +"</p>")
     return render_template('home.html', past_posts=post)
 
+def posts_to_html():
+    return Markup("<p>Hello</p>")
+
 #redirect to GitHub's OAuth page and confirm callback URL
 @app.route('/login')
 def login():   
