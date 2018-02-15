@@ -46,6 +46,7 @@ def post():
     try:
         with open(nameOfFile,'r+') as file:
             data = json.load(file)
+            data.append(request.form['message'])
             message = 'File was created'
     except:
         message = 'File was NOT created'
