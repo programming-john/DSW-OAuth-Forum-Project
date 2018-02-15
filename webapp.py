@@ -45,6 +45,9 @@ def post():
     try:
         with open(nameOfFile,'r+') as file:
             data = json.load(file)
+    except:
+        with open(nameOfFile,'w') as file:
+            data = json.load(file)
     return render_template('home.html', past_posts=posts_to_html())
 
 def posts_to_html():
