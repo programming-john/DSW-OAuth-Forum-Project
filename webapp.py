@@ -45,9 +45,9 @@ def post():
     try:
         with open(nameOfFile,'r+') as file:
             data = json.load(file)
-            
+            message = "File was created"
     except:
-        message = "freaking file did not load or somehting"
+        message = "freaking file did not load or something"
     return render_template('home.html', past_posts=posts_to_html(),error = message)
 
 def posts_to_html():
