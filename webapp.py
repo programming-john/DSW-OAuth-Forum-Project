@@ -37,7 +37,7 @@ def inject_logged_in():
 @app.route('/')
 def home():
     try:
-        with open(nameOfFile,'r+') as file:
+        with open(nameOfFile,'w') as file:
             data = json.load(file)
             message = 'File was created'
     except:
