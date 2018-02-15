@@ -44,7 +44,6 @@ def post():
     #Every post should include the username of the poster and text of the post.
     try:
         with open(file,'r+') as f:
-            mess = "something was written my dawg"
             data = json.load(f)
             data.append(request.form['message'])
             f.seek(0)
