@@ -45,10 +45,10 @@ def post():
     try:
         with open(nameOfFile,'r+') as file:
             data = json.load(file)
-            message = "File was created"
+            message = Markup("<p>File was created</p>")
     except:
-        message = "freaking file did not load or something"
-    return render_template('home.html', past_posts=posts_to_html(),error = message)
+        message = Markup("<p>File was NOT created</p>")
+    return render_template('home.html', past_posts=posts_to_html(), error = message)
 
 def posts_to_html():
     post = Markup("<p>Hello</p>")
