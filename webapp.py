@@ -36,21 +36,19 @@ def inject_logged_in():
 
 @app.route('/')
 def home():
-    return render_template('home.html', past_posts=posts_to_html())
+    try:
+        with open(nameOfFile,'r+') as file:
+            data = json.load(file)
+            message = 'File was created'
+    except:
+        message = 'File was NOT created'
+    return render_template('home.html', past_posts=posts_to_html(),rar=message)
 
 @app.route('/posted', methods=['POST'])
 def post():
     #This function should add the new post to the JSON file of posts and then render home.html and display the posts.  
     #Every post should include the username of the poster and text of the post.
-    message = 'Before file was created'
-    try:
-        with open(nameOfFile,'r+') as file:
-            data = json.load(file)
-            data.append(request.form['message'])
-            message = 'File was created'
-    except:
-        message = 'File was NOT created'
-    return render_template('home.html', past_posts=posts_to_html(), rar = message)
+    return render_template('home.html', past_posts=posts_to_html())
 
 def posts_to_html():
     post = Markup("<p>Hello</p>")
