@@ -46,15 +46,13 @@ def post():
         # Initialize a list
         posts = []
         #fill list
-        empDict = {'firstName': 'Roy', 'lastName': 'Augustine'}
+        empDict = {'username': session['user_data']['login'], 'Post': request.form['message']}
         posts.append(empDict)
         # convert to json data
-        with open(file,'r+') as f:
-            json.load(f)
-            jsonStr = json.dump(posts,f)
-            mess = "Got here"
-    except Exception ,e:
-        mess = e
+        jsonStr = json.dumps(posts)
+        mess = pprint.pformat(posts)
+    except:
+        mess = "no post"
     return render_template('home.html', past_posts=posts_to_html(),rar=mess)
 
 def posts_to_html():
