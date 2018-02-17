@@ -46,17 +46,18 @@ def post():
         # Initialize a list
         posts = []
         #fill list
-        empDict = {'username': session['user_data']['login'], 'Post': request.form['message']}
+        empDict = {'Username': session['user_data']['login'], 'Post': request.form['message']}
         posts.append(empDict)
         # convert to json data
-        jsonStr = json.dumps(posts)
-        mess = pprint.pformat(posts)
+        jsonStr = json.dump(posts,file)
+        mess = pprint.pformat(file)
     except:
         mess = "no post"
     return render_template('home.html', past_posts=posts_to_html(),rar=mess)
 
 def posts_to_html():
-    post = Markup("<table><tr><td>User Name</td><td>Post</td></tr></table>")
+    try:
+        with open()
     return post
 
 #redirect to GitHub's OAuth page and confirm callback URL
