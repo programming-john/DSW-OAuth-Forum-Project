@@ -53,8 +53,8 @@ def post():
             json.load(f)
             jsonStr = json.dump(posts,f)
             mess = "Got here"
-    except:
-        mess = "There are no posts as of yet"
+    except Exception ,e:
+        mess = e
     return render_template('home.html', past_posts=posts_to_html(),rar=mess)
 
 def posts_to_html():
