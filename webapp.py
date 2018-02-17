@@ -49,8 +49,10 @@ def post():
         empDict = {'firstName': 'Roy', 'lastName': 'Augustine'}
         posts.append(empDict)
         # convert to json data
-        jsonStr = json.dumps(posts)
-        mess = "Got here"
+        with open(file,'r+') as f:
+            json.load(f)
+            jsonStr = json.dump(posts,f)
+            mess = "Got here"
     except:
         mess = "There are no posts as of yet"
     return render_template('home.html', past_posts=posts_to_html(),rar=mess)
