@@ -54,8 +54,7 @@ def post():
     return render_template('home.html', past_posts=posts_to_html(),rar=mess)
 
 def posts_to_html():
-    try:
-        with open()
+    post = "nothing"
     return post
 
 #redirect to GitHub's OAuth page and confirm callback URL
