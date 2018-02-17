@@ -45,10 +45,6 @@ def post():
     try:
         with open(file,'r+') as f:
             data = json.load(f)
-            data.append(request.form['message'])
-            f.seek(0)
-            f.truncate()
-            json.dump(data,f)
     except:
         mess = "There are no posts as of yet"
     return render_template('home.html', past_posts=posts_to_html(),rar=mess)
