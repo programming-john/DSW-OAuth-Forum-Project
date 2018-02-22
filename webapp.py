@@ -29,6 +29,7 @@ github = oauth.remote_app(
 #use a JSON file to store the past posts.  A global list variable doesn't work when handling multiple requests coming in and being handled on different threads
 #Create and set a global variable for the name of your JSON file here.  The file will be created on Heroku, so you don't need to make it in GitHub
 file = 'posts.json'
+os.system("echo '[]'>" + file)
 
 @app.context_processor
 def inject_logged_in():
@@ -45,25 +46,24 @@ def post():
     try:
         with open(file,'r+') as jsonFile:
             data = json.load(jsonFile)
-            data.append({  
-                session['user_data']['logged_in']: request.form['message']
-            })
-            jsonFile.seek(0)
-            jsonFile.truncate()
+            data.append("Username: " + session['user_data']['login'] + ", Message: " + request.form['message'])
+            json.seek(0)
+            json.truncate()
             json.dump(data,jsonFile)
     except Exception as e:
         print(e)
-        mess = "No Post"
-    return render_template('home.html', past_posts=posts_to_html(), rar=mess)
+    return render_template('home.html', past_posts=posts_to_html())
 
 def posts_to_html():
-    post = "something"
+    post = "No Posts"
     try:
         with open(file,'r+') as jsonFile:
             data = json.load(jsonFile)
+            for stuff in data:
+                post = Markup("<p>" + stuff + "</p>")
     except Exception as e:
         print(e)
-        post = "empty"
+        post = Markup("<p>An error occurred while posting this.</p>")
     return post
 
 #redirect to GitHub's OAuth page and confirm callback URL
@@ -74,14 +74,14 @@ def login():
 @app.route('/logout')
 def logout():
     session.clear()
-    return render_template('message.html', message='You have logged out.')
+    return render_template('message.html', message='You were logged out')
 
 @app.route('/login/authorized')
 def authorized():
     resp = github.authorized_response()
     if resp is None:
         session.clear()
-        message = 'Access denied: reason=' + request.args['error'] + ' error=' + request.args['error_description'] + ' full=' + pprint.pformat(request.args)      
+        message = 'Access denied: ' + request.args['error'] + ' error =' + request.args['error_description'] + ' full =' + pprint.pformat(request.args)      
     else:
         try:
             session['github_token'] = (resp['access_token'], '') #save the token to prove that the user logged in
@@ -90,7 +90,7 @@ def authorized():
         except Exception as inst:
             session.clear()
             print(inst)
-            message='An error occured, please try again.  '
+            message='An error occurred while logging in, please try again.  '
     return render_template('message.html', message=message)
 
 #the tokengetter is automatically called to check who is logged in.
@@ -101,3 +101,4 @@ def get_github_oauth_token():
 
 if __name__ == '__main__':
     app.run()
+
