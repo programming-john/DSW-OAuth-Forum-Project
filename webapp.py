@@ -45,12 +45,25 @@ def post():
     try:
         with open(file,'r+') as jsonFile:
             data = json.load(jsonFile)
-    except:
+            data.append({  
+                session['user_data']['logged_in']: request.form['message']
+            })
+            jsonFile.seek(0)
+            jsonFile.truncate()
+            json.dump(data,jsonFile)
+    except Exception as e:
+        print(e)
         mess = "no post"
-    return render_template('home.html', past_posts=posts_to_html(),rar=mess)
+    return render_template('home.html', past_posts=posts_to_html(), rar=mess)
 
 def posts_to_html():
-    post = "nothing"
+    post = "something"
+    try:
+        with open(file,'r+') as jsonFile:
+            data = json.load(jsonFile)
+    except Exception as e:
+        print(e)
+        post = "empty"
     return post
 
 #redirect to GitHub's OAuth page and confirm callback URL
@@ -61,7 +74,7 @@ def login():
 @app.route('/logout')
 def logout():
     session.clear()
-    return render_template('message.html', message='You were logged out')
+    return render_template('message.html', message='You have logged out.')
 
 @app.route('/login/authorized')
 def authorized():
@@ -77,7 +90,7 @@ def authorized():
         except Exception as inst:
             session.clear()
             print(inst)
-            message='Unable to login, please try again.  '
+            message='An error occured, please try again.  '
     return render_template('message.html', message=message)
 
 #the tokengetter is automatically called to check who is logged in.
