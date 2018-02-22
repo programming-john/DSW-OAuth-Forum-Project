@@ -53,7 +53,7 @@ def post():
             json.dump(data,jsonFile)
     except Exception as e:
         print(e)
-        mess = "no post"
+        mess = "No Post"
     return render_template('home.html', past_posts=posts_to_html(), rar=mess)
 
 def posts_to_html():
