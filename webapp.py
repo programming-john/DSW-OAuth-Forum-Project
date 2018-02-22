@@ -46,24 +46,25 @@ def post():
     try:
         with open(file,'r+') as jsonFile:
             data = json.load(jsonFile)
-            data.append("Username: " + session['user_data']['login'] + ", Message: " + request.form['message'])
-            json.seek(0)
-            json.truncate()
+            data.append([session['user_data']['login'], request.form['message']])
+            jsonFile.seek(0)
+            jsonFile.truncate()
             json.dump(data,jsonFile)
-    except Exception as e:
+    except Exception as e: 
         print(e)
     return render_template('home.html', past_posts=posts_to_html())
 
 def posts_to_html():
-    post = "No Posts"
+    post = Markup("<table><tr><td>Username</td><td>Post</td></tr>"
     try:
         with open(file,'r+') as jsonFile:
             data = json.load(jsonFile)
             for stuff in data:
-                post = Markup("<p>" + stuff + "</p>")
+                post += Markup("<tr><td>" + "Username: " + stuff[0] + ", Message: " +stuff[1] + "</td></tr>")
     except Exception as e:
         print(e)
-        post = Markup("<p>An error occurred while posting this.</p>")
+        post = Markup("<p>Post could not be submitted.</p>")
+    post += Markup("</table>")
     return post
 
 #redirect to GitHub's OAuth page and confirm callback URL
@@ -74,14 +75,14 @@ def login():
 @app.route('/logout')
 def logout():
     session.clear()
-    return render_template('message.html', message='You were logged out')
+    return render_template('message.html', message='You have been logged out.')
 
 @app.route('/login/authorized')
 def authorized():
     resp = github.authorized_response()
     if resp is None:
         session.clear()
-        message = 'Access denied: ' + request.args['error'] + ' error =' + request.args['error_description'] + ' full =' + pprint.pformat(request.args)      
+        message = 'Access denied: reason=' + request.args['error'] + ' error=' + request.args['error_description'] + ' full=' + pprint.pformat(request.args)      
     else:
         try:
             session['github_token'] = (resp['access_token'], '') #save the token to prove that the user logged in
@@ -90,7 +91,7 @@ def authorized():
         except Exception as inst:
             session.clear()
             print(inst)
-            message='An error occurred while logging in, please try again.  '
+            message='Unable to login, please try again.  '
     return render_template('message.html', message=message)
 
 #the tokengetter is automatically called to check who is logged in.
@@ -101,4 +102,3 @@ def get_github_oauth_token():
 
 if __name__ == '__main__':
     app.run()
-
