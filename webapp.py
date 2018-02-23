@@ -55,17 +55,18 @@ def post():
     return render_template('home.html', past_posts=posts_to_html())
 
 def posts_to_html():
-    post = Markup("<table><tr><td>Username</td><td>Post</td></tr>"
+    post = "<table id='postTable'><tr><td><b>Username</b></td><td><b>Post</b></td></tr>"
     try:
         with open(file,'r+') as jsonFile:
             data = json.load(jsonFile)
             for stuff in data:
-                post += Markup("<tr><td>" + "Username: " + stuff[0] + ", Message: " +stuff[1] + "</td></tr>")
+                post += '<tr>' + '<td>' +stuff[0] + '</td><td>' + stuff[1] + '</td></tr>'
     except Exception as e:
         print(e)
-        post = Markup("<p>Post could not be submitted.</p>")
-    post += Markup("</table>")
-    return post
+        post = "<p>Post could not be submitted.</p>"
+    post += '</table>'
+    formattedPost = Markup(post)
+    return formattedPost
 
 #redirect to GitHub's OAuth page and confirm callback URL
 @app.route('/login')
@@ -75,7 +76,7 @@ def login():
 @app.route('/logout')
 def logout():
     session.clear()
-    return render_template('message.html', message='You have been logged out.')
+    return render_template('message.html', message='You were logged out')
 
 @app.route('/login/authorized')
 def authorized():
