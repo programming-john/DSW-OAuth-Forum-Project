@@ -19,6 +19,10 @@ url = 'mongodb://{}:{}@{}:{}/{}'.format(
         os.environ["MONGO_PORT"],
         os.environ["MONGO_DBNAME"])
 
+client = pymongo.MongoClient(url)
+db = client[os.environ["MONGO_DBNAME"]]
+collection = db['holysheep']
+
 oauth = OAuth(app)
 
 #Set up GitHub as OAuth provider
