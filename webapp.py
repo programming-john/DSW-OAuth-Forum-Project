@@ -69,6 +69,9 @@ def posts_to_html():
         post = "<p>Post could not be submitted.</p>"
     post += '</table>'
     formattedPost = Markup(post)
+    <form action = "/delete" method = "post">
+        <button type = "submit" name="delete" value="docid">Delete</button>
+    </form>
     return formattedPost
 
 #redirect to GitHub's OAuth page and confirm callback URL
