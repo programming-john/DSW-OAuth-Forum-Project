@@ -73,7 +73,7 @@ def posts_to_html():
     formattedPost = Markup(post)
     return formattedPost
 
-@app.route('/delete' method=['POST'])
+@app.route('/delete' methods=['POST'])
 def delete()
     #delete posts
     db.collection.deleteOne({“_id” : ObjectId(str(request.form['delete']))})
