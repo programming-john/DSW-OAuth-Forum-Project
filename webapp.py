@@ -74,7 +74,7 @@ def posts_to_html():
     return formattedPost
 
 @app.route('/delete', methods=['POST'])
-def delete()
+def delete():
     #delete posts
     db.collection.deleteOne({“_id” : ObjectId(str(request.form['delete']))})
     return render_template('home.html', past_posts=posts_to_html())
