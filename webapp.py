@@ -56,30 +56,11 @@ def home():
 def post():
     #This function should add the new post to the JSON file of posts and then render home.html and display the posts.  
     #Every post should include the username of the poster and text of the post.
-    try:
-        with open(file,'r+') as jsonFile:
-            data = json.load(jsonFile)
-            data.append([session['user_data']['login'], request.form['message']])
-            jsonFile.seek(0)
-            jsonFile.truncate()
-            json.dump(data,jsonFile)
-    except Exception as e: 
-        print(e)
+    if request.form['message'] is '':
+        flash("Say something") #☭
+    else:
+        collection.insert_one({"post":[session['user_data']['login'], request.form['message'], session['user_data']['avatar_url']]})
     return render_template('home.html', past_posts=posts_to_html())
-
-def posts_to_html():
-    post = "<table id='postTable'><tr><td><b>Username</b></td><td><b>Post</b></td></tr>"
-    try:
-        with open(file,'r+') as jsonFile:
-            data = json.load(jsonFile)
-            for stuff in data:
-                post += '<tr>' + '<td>' +stuff[0] + '</td><td>' + stuff[1] + '</td></tr>'
-    except Exception as e:
-        print(e)
-        post = "<p>Post could not be submitted.</p>"
-    post += '</table>'
-    formattedPost = Markup(post)
-    return formattedPost
 
 #redirect to GitHub's OAuth page and confirm callback URL
 @app.route('/login')
