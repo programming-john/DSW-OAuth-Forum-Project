@@ -69,11 +69,8 @@ def posts_to_html():
     except Exception as e:
         print(e)
         post = "<p>Post could not be submitted.</p>"
-    post += '</table>'
+    post += '</table><form action = "/delete" method = "post"><button type = "submit" name="delete" value="' + str(document.get('_id'))+ '">Delete</button></form>'
     formattedPost = Markup(post)
-    <form action = "/delete" method = "post">
-        <button type = "submit" name="delete" value="docid">Delete</button>
-    </form>
     return formattedPost
 
 @app.route('/delete' method=['POST'])
