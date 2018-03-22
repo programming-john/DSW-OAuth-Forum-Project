@@ -74,6 +74,13 @@ def posts_to_html():
     </form>
     return formattedPost
 
+@app.route('/delete' method=['POST'])
+def delete()
+    #delete posts
+    global collection
+    db.collection.deleteOne({“_id” : ObjectId(str(request.form['delete']))})
+    return render_template('home.html', past_posts=posts_to_html())
+
 #redirect to GitHub's OAuth page and confirm callback URL
 @app.route('/login')
 def login():   
