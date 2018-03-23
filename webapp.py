@@ -65,11 +65,11 @@ def posts_to_html():
     post = "<table id='postTable'><tr><td><b>Username</b></td><td><b>Post</b></td></tr>"
     try:
         for document in collection.find():
-            post += '<tr>' + '<td>' + document['post'][0] + '</td><td>' + document['post'][1] + '</td></tr>'
+            post += '<tr>' + '<td>' + document['post'][0] + '</td><td>' + document['post'][1] + '</td></tr><form action="/delete" method="post"><button type="submit" name="delete" value="' + str(document.get('_id'))+ '">Delete</button></form>'
     except Exception as e:
         print(e)
         post = "<p>Post could not be submitted.</p>"
-    post += '</table><form action="/delete" method="post"><button type="submit" name="delete" value="' + str(document.get('_id'))+ '">Delete</button></form>'
+    post += '</table>'
     formattedPost = Markup(post)
     return formattedPost
 
